@@ -1,14 +1,15 @@
 # Site settings
-title:          Tale
+title:          레몬 공부방
 description:    "Minimal Jekyll theme for storytellers"
 baseurl:        ""
-url:            "https://chesterhow.github.io"
+url:            "https://puuurm.github.io/"
 
 # Author
 author:
-  name:         Chester How
-  url:          https://chester.how
-  email:        chesterhow@gmail.com
+  name:         Lemon
+  url:          https://puuurm.github.io/
+  email:        wolla39@gmail.com
+  github:       https://github.com/puuurm
 
 # Build settings
 markdown:       kramdown
