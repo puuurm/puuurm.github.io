@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-07-31T21:58:58+09:00</updated><id>http://localhost:4000/</id><title type="html">레몬 공부방</title><subtitle>Minimal Jekyll theme for storytellers</subtitle><author><name>Lemon</name><email>wolla39@gmail.com</email></author><entry><title type="html">Functional Programming</title><link href="http://localhost:4000/2018-07-28/functional-programming" rel="alternate" type="text/html" title="Functional Programming" /><published>2018-07-28T18:05:00+09:00</published><updated>2018-07-28T18:05:00+09:00</updated><id>http://localhost:4000/2018-07-28/functional-programming</id><content type="html" xml:base="http://localhost:4000/2018-07-28/functional-programming">&lt;h3 id=&quot;functional-programming&quot;&gt;Functional Programming&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;RxSwift 스터디를 하려고 공부하는데, 익숙하지만 제대로 알고있지 않은 용어들이 많이 보였다. 한 번 짚고 넘어갈 필요가 있다고 느끼고 개념 위주로 정리하였다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;imperative-vs-declarative-programming&quot;&gt;Imperative vs Declarative Programming&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;명령형은 프로그램이 ‘‘어떻게’’ 동작할 것인지 알고리즘을 명시한다. 선언형은 ‘‘무엇’‘을 표현할 것인지에 초점을 두고 알고리즘을 명시하지 않는다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;공부자료&lt;/p&gt;
+
+&lt;p&gt;https://github.com/chocoma87/ToyProject/wiki/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80-6-(Imperative-vs-Declarative-Programming)&lt;/p&gt;</content><author><name>Lemon</name><email>wolla39@gmail.com</email></author><summary type="html">Functional Programming</summary></entry><entry><title type="html">iOS Threading Programming Guide</title><link href="http://localhost:4000/2018-07-20/ios-threading-programming-guide" rel="alternate" type="text/html" title="iOS Threading Programming Guide" /><published>2018-07-20T09:00:00+09:00</published><updated>2018-07-20T09:00:00+09:00</updated><id>http://localhost:4000/2018-07-20/ios-threading-programming-guide</id><content type="html" xml:base="http://localhost:4000/2018-07-20/ios-threading-programming-guide">&lt;h3 id=&quot;1-introduction&quot;&gt;1. Introduction&lt;/h3&gt;
+
+&lt;p&gt;스레드는 단일 응용 프로그램 내에서 동시에 여러 코드 경로를 실행할 수 있는 여러 기술 중 하나이다. iOS/ OS X에서 Operation 객체와 GCD가 동시성을 구현하기 위한 효율적인 인터페이스를 제공하지만 스레드 생성 및 관리를 위한 인터페이스 또한 제공한다.&lt;/p&gt;
+
+&lt;p&gt;이 문서에서는 OS X에서 사용할 수 있는 스레드 페키지와 사용법과 다중 스레드 코드의 동기화 기술에 대해 설명한다.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-about-threaded-programming&quot;&gt;2. About Threaded Programming&lt;/h3&gt;
+
+&lt;h4 id=&quot;스레드란-무엇인가&quot;&gt;스레드란 무엇인가?&lt;/h4&gt;
+
+&lt;p&gt;스레드는 프로그램 내에서 여러 실행 경로를 구현하는 (프로세스에 비하면) 비교적 가벼운 방법이다. 각 프로그램 내에는 하나 이상의 스레드가 존재하고, (거의) 동시에 다른 태스크를 수행하는 데 사용할 수 있다. 시스템은 스레드가 사용 가능한 코어에서 실행되도록 스케줄링하고 필요에 따라 다른 스레드를 실행시키기 위해 선점적으로 인터럽트하면서 실행 스레드를 관리한다.&lt;/p&gt;
+
+&lt;p&gt;기술적 관점에서 스레드는 커널/응용 프로그램 레벨 데이터 구조의 조합이다. 커널 레벨 구조는 이벤트 전송과 스레드의 선점 스케줄링을 조정한다. 응용 프로그램 레벨 구조는 함수 호출을 저장하는 콜스택과 응용 프로그램이 스레드의 특성 및 상태를 관리하고 조작하는 데 필요한 구조가 포함된다.&lt;/p&gt;
+
+&lt;p&gt;비 동시성 프로그램은 오직 하나의 메인 스레드만 존재하며 전반적인 동작을 구현하기 위해 서로 다른 메소드나 함수로 분기한다. 대조적으로 동시성을 지원하는 프로그램은 하나의 스레드로 시작하고 추가 실행 경로를 만드는 데 필요한 만큼 더 추가한다. 추가된 새 실행 경로는 메인 스레드와는 독립적으로 코드를 실행하는 커스텀 시작 루틴을 갖는다.&lt;/p&gt;
+
+&lt;p&gt;프로그램에서 멀티 스레드를 사용하면 두 가지 장점이 있다. 첫째, 멀티 스레드는 프로그램의 인지 응답을 향상시킬 수 있다.  오래 걸리는 연산 작업을 별도의 스레드에서 작업하면 프로그램 중지 현상이 발생하지 않고 사용자 상호 작용에 신속하게 응답할 수 있다. 둘째, 멀티 코어 시스템에서 응용 프로그램의 실시간 성능을 향상시킬 수 있다. 다른 작업을 수행하는 스레드는 서로 다른 프로세서 코어에서 동시에 수행할 수 있으므로 프로그램이 주어진 시간 내에 수행하는 작업량을 늘릴 수 있다.&lt;/p&gt;
+
+&lt;p&gt;멀티 스레드를 사용하면 발생하는 문제점들도 있다. 코드 복잡성과 동기화 문제이다.&lt;/p&gt;
+
+&lt;h4 id=&quot;스레딩-용어-정의&quot;&gt;스레딩 용어 정의&lt;/h4&gt;
+
+&lt;p&gt;이 문서에서 사용하는 용어를 정리하자면 다음과 같다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;스레드: 코드 실행을 위한 별도의 경로&lt;/li&gt;
+  &lt;li&gt;프로세스: 멀티 스레드를 가진 실행 중인 프로그램&lt;/li&gt;
+  &lt;li&gt;태스크: 수행해야 할 추상적인 작업 개념&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;스레드에-대한-대안&quot;&gt;스레드에 대한 대안&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;스레딩 프로그래밍에 대한 대안이 생겨나게 된 배경과 대안에 대해서 알아본다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;스레드를 직접 만드는 것은 동시성을 지원하는 여러 방법들 중 상대적으로 로우 레벨의 복잡한 방법이기 때문에 코드의 불확실성 문제가 발생한다. 스레드 프로그래밍을 할 때 설계에 대한 결과를 완전히 이해하지 못하면 동기화나 타이밍 이슈를 겪게된다. 이는 원하는 대로 동작하지 않거나 프로그램 충돌 및 데이터 손상 등의 결과로 이어진다.&lt;/p&gt;
+
+&lt;p&gt;스레드 프로그래밍을 할 때 수행중인 작업량이 동시성을 보장하는지 체크 해야한다. 스레드는 메모리 소비와 CPU 시간면에서 엄청난 양의 오버 헤드를 프로세스에 도입한다. 이러한 경우 오버헤드가 의도한 작업에 비해 너무 크거나 다른 옵션을 구현하기가 더 쉽다는 것을 알 수 있다.&lt;/p&gt;
+
+&lt;p&gt;다음 표는 스레드에 대한 몇가지 대안을 나열한 것이다. 대체 기술을 비롯하여 스레드를 효율적으로 사용할 수 있는 대안이 모두 포함되어 있다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;기술&lt;/th&gt;
+      &lt;th&gt;설명&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Operation 객체&lt;/td&gt;
+      &lt;td&gt;보조 스레드에서 실행되는 작업에 대한 래퍼. 스레드 관리 측면을 숨기고 작업 자체에 집중하도록 한다. 하나 이상의 스레드에서 작업 객체의 실행을 실제로 관리하는 operation queue 객체와 함께 사용된다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Grand Central Dispatch (GCD)&lt;/td&gt;
+      &lt;td&gt;GCD는 스레드 관리 보다 수행할 태스크에 집중할 수 있게 해주는 스레드의 또 다른 대안이다. GCD를 사용하여 수행할 태스크를 정의하고 작업 큐에 추가할 수 있다. 작업 큐는 스레드를 사용하여 직접 수행 할 수있는 것보다 효율적으로 작업을 실행하기 위해 사용 가능한 코어 수와 현재 로드를 고려한다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Idle-time notification&lt;/td&gt;
+      &lt;td&gt;상대적으로 짧고 우선순위가 낮은 태스크의 경우, idle-time notification은 앱이 사용중이 아닐 때 해당 태스크를 한번에 수행할 수 있게 한다. 코코아는 NSNotificationQueue 객체를 사용하여 idle-time notification을 지원한다. Idle-time notification을 요청하려면 NSPostWhenIdle 옵션을 사용하여 디폴트 NSNotificationQueue 객체에 노티피케이션을 보낸다. 런루프가 유휴 상태가 될 때까지 큐는 notification 객체의 전달을 늦춘다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Asynchronous functions&lt;/td&gt;
+      &lt;td&gt;시스템 인터페이스에는 자동 동시성을 제공하는 비동기 함수가 포함된다. 이러한 api는 시스템 데몬과 프로세스를 사용하거나 커스텀 스레드를 만들어 태스크를 수행하고 결과를 사용자에게 반환할 수 있다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Timers&lt;/td&gt;
+      &lt;td&gt;스레드를 요청하기에는 너무 사소한 정기적인 태스크를 수행하기 위해 앱의 메인 스레드에서 타이머를 사용할 수 있다. 하지만 이는 정기적인 간격으로 서비스가 필요하다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Separate processes&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;3-스레드-관리&quot;&gt;3. 스레드 관리&lt;/h3&gt;
+
+&lt;h4 id=&quot;스레드-비용&quot;&gt;스레드 비용&lt;/h4&gt;
+
+&lt;p&gt;스레딩은 메모리 사용과 성능 측면에서 비용이 발생한다.&lt;/p&gt;</content><author><name>Lemon</name><email>wolla39@gmail.com</email></author><summary type="html">1. Introduction</summary></entry><entry><title type="html">iOS Concurrency Programming Guide</title><link href="http://localhost:4000/2018-07-18/ios-concurrency-programming-guide" rel="alternate" type="text/html" title="iOS Concurrency Programming Guide" /><published>2018-07-18T14:47:00+09:00</published><updated>2018-07-18T14:47:00+09:00</updated><id>http://localhost:4000/2018-07-18/ios-concurrency-programming-guide</id><content type="html" xml:base="http://localhost:4000/2018-07-18/ios-concurrency-programming-guide">&lt;h4 id=&quot;introduction&quot;&gt;Introduction&lt;/h4&gt;
+
+&lt;p&gt;동시성은 동시에 발생하는 여러 가지 개념이다. 멀티 코어 CPU의 확산으로 소프트웨어 개발자는 여러 개의 코어를 활용할 수 있도록 동시성 프로그래밍을 해야한다.&lt;/p&gt;
+
+&lt;p&gt;과거에는 동시성 프로그래밍을 위해 하나 이상의 스레드를 생성하여 수동으로 관리해야만 했다. 최적의 스레드 수는 현재 시스템 부하 및 기본 하드웨어에 기반하여 동적으로 변하기 때문에 스레드를 직접 관리하여 멀티 스레드 프로그래밍을 구현하기가 꽤 까다롭다.&lt;/p&gt;
+
+&lt;p&gt;OS X와 iOS는 스레드 기반 시스템보다 더 단순한 동시성 프로그래밍 기법을 제공한다. 특정 태스크를 정의한 다음 시스템이 이를 수행하도록 해야한다. 시스템이 스레드를 관리하게 함으로써 원시 스레드에서는 불가능한 수준의 확장성을 얻을 수 있다. 이 문서에서는 이러한 동시성 프로그래밍 기법을 소개한다.&lt;/p&gt;
+
+&lt;h4 id=&quot;threaded-programming&quot;&gt;Threaded Programming&lt;/h4&gt;
+
+&lt;h4 id=&quot;concurrency-and-application-design&quot;&gt;Concurrency and Application Design&lt;/h4&gt;
+
+&lt;p&gt;초기에는 컴퓨터가 수행할 수 있는 단위 시간당 최대 작업량이 CPU의 클럭 속도에 의해 결정됐다. 하지만 프로세서 설계가 소형화됨에 따라 물리적 제약이 발생하였고 이는 클럭 속도 제한으로 이어졌다. 이런 상황에서 칩의 성능을 높이기 위해 각 칩의 프로세서 코어 수를 늘려 초당 더 많은 명령을 실행할 수 있도록 발전했다. 여기서 발생하는 문제는 여분의 코어를 이용하는 방법이다.&lt;/p&gt;
+
+&lt;p&gt;응용 프로그램이 여러 코어를 사용하는 전통적인 방법은 여러 스레드를 만드는 것이다.&lt;/p&gt;</content><author><name>Lemon</name><email>wolla39@gmail.com</email></author><summary type="html">Introduction</summary></entry><entry><title type="html">Start Blog</title><link href="http://localhost:4000/2018-01-25/start-blog" rel="alternate" type="text/html" title="Start Blog" /><published>2018-01-25T19:00:05+09:00</published><updated>2018-01-25T19:00:05+09:00</updated><id>http://localhost:4000/2018-01-25/start-blog</id><content type="html" xml:base="http://localhost:4000/2018-01-25/start-blog">&lt;center&gt;이제 블로그 시작!&lt;/center&gt;</content><author><name>Lemon</name><email>wolla39@gmail.com</email></author><summary type="html">이제 블로그 시작!</summary></entry></feed>
