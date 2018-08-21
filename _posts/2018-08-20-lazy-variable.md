@@ -13,19 +13,23 @@ categories: lazy variable
 
 Lazy var는 접근될 때 클로저가 실행됨으로써 초기값이 설정된다. 즉, 어떤 클래스(or 구조체) 내부에 lazy var 프로퍼티가 있다면, 클래스(or 구조체) 인스턴스가 생성되는 시점에 프로퍼티 초기값을 설정해주지 않아도 된다. 최초의 접근에만 클로저가 실행되어 초기화 된다.
 
-####2. lazy var는 언제 쓰는게 좋을까?
+#### 2. lazy var는 언제 쓰는게 좋을까?
 
 공식 문서를 찾아보면 아래와 같이 나와있다.
 
 ```
-Lazy properties are useful when the initial value for a property is dependent on outside factors whose values are not known until after an instance’s initialization is complete. Lazy properties are also useful when the initial value for a property requires complex or computationally expensive setup that should not be performed unless or until it is needed.
+Lazy properties are useful when the initial value for a property is dependent on 
+outside factors whose values are not known until after an instance’s initialization 
+is complete. Lazy properties are also useful when the initial value for a property 
+requires complex or computationally expensive setup that should not be performed unless 
+or until it is needed.
 ```
 
 Lazy var는 인스턴스 초기화가 완료된 이후 외부 요인에 의해 초기값이 결정되는 경우, 복잡하거나 계산 비용이 많이 드는 설정을 필요로 하는 경우에 사용하면 좋다. 지금 딱 떠오르는 건 테이블 생성이나 파일 읽기 등이 있다.
 
 #### 3. 그렇다면 코드로 UI를 만들 때, 서브 뷰 프로퍼티들을 lazy로 선언하는 것이 더 좋을까?
 
-서브 뷰 프로퍼티를 클로저로 초기화하는 상수로 만들것인가 lazy 변수로 만들것인가? 디버깅 결과 둘의 차이는 인스턴스 생성 전에 클로저가 실행하는지, 프로퍼티에 접근할 때 클로저가 실행해 초기화 되는지 여부이다. 
+서브 뷰 프로퍼티를 클로저로 초기화하는 상수로 만들것인가 lazy 변수로 만들것인가? 디버깅 결과, 둘의 차이는 인스턴스 생성 전에 클로저가 실행되는지, 프로퍼티에 접근할 때 클로저가 실행돼 초기화 되는지 여부이다. 
 
 만약 서브뷰가 항상 보여져야 한다면 lazy를 사용했을 때 이점이 적을 것이고, 특정 상황에서만 보여져야 한다면 lazy를 사용했을 때 이점이 있을 수 있다. 뷰 컨트롤러를 생성할 때, 해당 서브뷰를 만들지 않고 생성이 가능하므로 메모리와 성능 측면에서 좋을 것 이다.
 
@@ -106,11 +110,17 @@ lemon = nil // 소멸자가 호출되지 않는다.
 
 #### 참고자료
 
-https://www.bobthedeveloper.io/blog/swift-lazy-initialization-with-closures
+[애플공식문서-Properties](https://docs.swift.org/swift-book/LanguageGuide/Properties.html#//apple_ref/doc/uid/TP40014097-CH14-ID254)
 
-https://outofbedlam.github.io/swift/2016/03/04/Lazy/
+[https://www.bobthedeveloper.io/blog/swift-lazy-initialization-with-closures](https://www.bobthedeveloper.io/blog/swift-lazy-initialization-with-closures)
 
-https://stackoverflow.com/questions/47367454/swift-lazy-var-vs-let-when-creating-views-programmatically-saving-memory
+[https://outofbedlam.github.io/swift/2016/03/04/Lazy/](https://outofbedlam.github.io/swift/2016/03/04/Lazy/)
 
+[https://stackoverflow.com/questions/47367454/swift-lazy-var-vs-let-when-creating-views-programmatically-saving-memory](https://stackoverflow.com/questions/47367454/swift-lazy-var-vs-let-when-creating-views-programmatically-saving-memory)
 
+[http://seorenn.blogspot.com/2015/02/swift-lazy-stored-properties.html](http://seorenn.blogspot.com/2015/02/swift-lazy-stored-properties.html)
+
+[https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a](https://medium.com/@abhimuralidharan/lazy-var-in-ios-swift-96c75cb8a13a)
+
+[https://medium.com/@hossamghareeb/lazy-properties-in-ios-39cda14ec14f](https://medium.com/@hossamghareeb/lazy-properties-in-ios-39cda14ec14f)
 
