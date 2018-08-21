@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "면접 예상 문제"
+title:  "기술 면접을 위한 정리"
 date:   2018-08-19 23:50:00 +0900
 categories: interview
 ---
