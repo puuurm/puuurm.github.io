@@ -18,10 +18,11 @@ lazy var 프로퍼티는 ''최초로 접근할 때 딱 한 번 초기화 되는 
 공식 문서를 찾아보면 아래와 같이 나와있다.
 
 ```
-Lazy properties are useful when the initial value for a property is dependent on 
-outside factors whose values are not known until after an instance’s initialization 
-is complete. Lazy properties are also useful when the initial value for a property 
-requires complex or computationally expensive setup that should not be performed unless 
+Lazy properties are useful when the initial value for a property is 
+dependent on outside factors whose values are not known until after 
+an instance’s initialization is complete. Lazy properties are also 
+useful when the initial value for a property requires complex or 
+computationally expensive setup that should not be performed unless 
 or until it is needed.
 ```
 
