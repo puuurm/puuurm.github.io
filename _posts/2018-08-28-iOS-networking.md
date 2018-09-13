@@ -21,8 +21,6 @@ HTTP 메시지들의 전송은 전송계층인 TCP/IP 를 통해 이루어진다
 
 애플이 제공하는 URL loading 시스템은 생성한 https 또는 사용자 정의 프로토콜과 같은 표준 프로토콜을 사용하여 URL로 식별되는 자원에 대한 액세스를 제공한다. 로딩은 비동기 적으로 수행된다.
 
-URLSession 인스턴스는 네트워크 데이터 전송 
-
 URLSession 인스턴스를 사용해 통신하는 방법은 다음과 같다.
 
 1. Session을 생성한다.
@@ -52,10 +50,16 @@ class var shared: URLSession
   - 타임 아웃 설정 : 데이터를 전부 받아오지 못할 때, 얼마 동안 요청을 시도할 것인지 설정한다.
 
     ```swift
-    // 추가 데이터를 기다릴 때 얼마까지 기다릴지 설정. default: 60 sec
+    /* 
+    추가 데이터를 기다릴 때 얼마까지 기다릴지 설정. 
+    default: 60 sec
+    */
     var timeoutIntervalForRequest: TimeInterval { get set }
 
-    // 백그라운드 세션이 실패한 작업을 얼마동안 자동으로 실행 할건지 설정. default: 7 days
+    /* 
+    백그라운드 세션이 실패한 작업을 얼마동안 자동으로 실행 할건지 설정. 
+    default: 7 days
+    */
     var timeoutIntervalForResource: TimeInterval { get set }
     ```
 
@@ -63,18 +67,29 @@ class var shared: URLSession
   - 캐시 정책 : 세션 설정의 종류를 지정함으로써 캐시 정책을 설정할 수 있다.
 
     ```swift
-    // 영속적인 디스크 기반 캐시를 사용하며, 사용자 키체인에 자격 증명을 저장한다. 쿠키를 저장함.
+    /*
+    영속적인 디스크 기반 캐시를 사용하며, 사용자 키체인에 자격 증명을 저장한다. 
+    쿠키를 저장함.
+    */
     class var `default`: URLSessionConfiguration { get }
 
-    // 캐시, 자격 증명, 세션 관련된 데이터를 디스크에 저장하지 않는다. 대신 세션 관련 데이터를 RAM에 저장한다.
+    /* 
+    캐시, 자격 증명, 세션 관련된 데이터를 디스크에 저장하지 않는다. 
+    대신 세션 관련 데이터를 RAM에 저장한다.
+    */
     class var ephemeral: URLSessionConfiguration { get }
 
-    // 백그라운드 상태에서 HTTP 업로드/다운로드가 수행된다.
+    /* 
+    백그라운드 상태에서 HTTP 업로드/다운로드가 수행된다.
+    */
     class func background(withIdentifier identifier: String) -> URLSessionConfiguration
     ```
 
     ```swift
-    // 특정 세션에서 요청했던 캐시된 응답. default session의 경우 캐시된다고 했는데, 이곳에서 설정한다.
+    /*
+    특정 세션에서 요청했던 캐시된 응답. 
+    default session의 경우 캐시된다고 했는데, 이곳에서 설정한다.
+    */
     var urlCache: URLCache? { get set }
     ```
 
@@ -92,15 +107,32 @@ Task는 url 세션에서 수행된다.
 
 - dataTask
 
-  리소스를 요청하고 서버의 응답으로 NSData 객체를 메모리에 리턴한다.
+  서버의 응답 데이터를 메모리에 저장한다. Background 세션을 제외한 모든 종류의 세션에서 지원된다.
 
 - downloadTask
 
-  백그라운드에서 디스크에 파일 형태로 리소스를 다운로드 한다.
+  서버의 응답 데이터를 temporary file에 기록한다. Suspended/not running 상태에서도 다운로드가 지속된다. (temporary file은 앱이 not running 상태일 때 해당 디렉토리의 데이터를 전부 삭제한다. iTunes나 iCloud에 백업되지 않는다.)
 
 - uploadTask
 
-  업로드 작업은 서버의 응답을 검색하기 전에 데이터를 업로드 할 수 있도록 요청 본문을 쉽게 제공 할 수 있다는 점을 제외하면 데이터 작업과 같다. 백그라운드 세션에서 지원된다.
+  업로드 태스크는 데이터 태스크를 상속 받았다. 백그라운드 세션에서 지원된다.
+
+#### 2. 캐시 데이터 접근하기
+
+세션을 생성하여 클라이언트와 서버간에 통신을 하면 응답 데이터를 캐시한다고 했다. 그렇다면 이 캐시 데이터를 어떻게 접근할 까? URLCache의 shared 싱글톤 인스턴스를 통해 접근할 수도 있고, 별도의 캐시 저장 장소를 설정하려면 session configuration의 urlCache에 할당한다.
+
+- URLRequest는 캐시 정책을 설정할 수 있다.
+
+  URLRequest.CachePolicy으로 캐시 정책을 설정한다. 캐시 정책은 요청 마다 설정할수도 있고, 세션 마다 설정할수도 있다. 만약 세션 마다 캐시 정책을 설정하려면, URLSessionConfiguration의 requestCachePolicy 프로퍼티를 사용한다. URLRequest.CachePolicy 는 4개지 타입의 캐시 정책이 있다.
+
+  1. reloadIgnoringLocalCacheData: 캐시를 사용하지 않고 원본 소스에서만 로드한다.
+  2. returnCacheDataDontLoad: 캐시 데이터의 만료일과 age에 상관없이 존재하는 캐시 데이터를 사용한다. 없다면 fail을 리턴.
+  3. returnCacheDataElseLoad: 캐시 데이터의 만료일과 age에 상관없이 존재하는 캐시 데이터를 사용한다. 없다면 원본 소스에서 로딩.
+  4. useProtocolCachePolicy: returnCacheDataElseLoad와 같지만, 캐시 데이터의 만료일과 age 초과시 원본 소스에서 변화된 내용을 체크한다는 점에서 다르다. 원본에 변화가 있다면 원본 데이터를, 아니면 캐시 데이터를 리턴한다.
+
+- 캐시에 직접 접근
+
+  ​
 
 
 
