@@ -89,6 +89,7 @@ class var shared: URLSession
     /*
     특정 세션에서 요청했던 캐시된 응답. 
     default session의 경우 캐시된다고 했는데, 이곳에서 설정한다.
+    default session일 때, urlCache의 기본 값은 URLCache.shared 이다.
     */
     var urlCache: URLCache? { get set }
     ```
@@ -119,22 +120,38 @@ Task는 url 세션에서 수행된다.
 
 #### 2. 캐시 데이터 접근하기
 
-세션을 생성하여 클라이언트와 서버간에 통신을 하면 응답 데이터를 캐시한다고 했다. 그렇다면 이 캐시 데이터를 어떻게 접근할 까? URLCache의 shared 싱글톤 인스턴스를 통해 접근할 수도 있고, 별도의 캐시 저장 장소를 설정하려면 session configuration의 urlCache에 할당한다.
+세션을 생성하여 클라이언트와 서버간에 통신을 하면 응답 데이터를 캐시한다고 했다. 그렇다면 이 캐시 데이터의 접근/삭제와 같은 관리는 어떻게 해야할까?
 
-- URLRequest는 캐시 정책을 설정할 수 있다.
+- 캐시 정책을 설정하여 캐시 데이터를 관리할 수 있다.
 
-  URLRequest.CachePolicy으로 캐시 정책을 설정한다. 캐시 정책은 요청 마다 설정할수도 있고, 세션 마다 설정할수도 있다. 만약 세션 마다 캐시 정책을 설정하려면, URLSessionConfiguration의 requestCachePolicy 프로퍼티를 사용한다. URLRequest.CachePolicy 는 4개지 타입의 캐시 정책이 있다.
+  URLRequest.CachePolicy으로 캐시 정책을 설정한다. 캐시 정책은 요청 마다 설정할 수도 있고, 세션 마다 설정할 수도 있다. 만약 세션 마다 캐시 정책을 설정하려면, URLSessionConfiguration의 requestCachePolicy 프로퍼티를 사용한다. URLRequest.CachePolicy 는 4개지 타입의 캐시 정책이 있다.
 
-  1. reloadIgnoringLocalCacheData: 캐시를 사용하지 않고 원본 소스에서만 로드한다.
-  2. returnCacheDataDontLoad: 캐시 데이터의 만료일과 age에 상관없이 존재하는 캐시 데이터를 사용한다. 없다면 fail을 리턴.
-  3. returnCacheDataElseLoad: 캐시 데이터의 만료일과 age에 상관없이 존재하는 캐시 데이터를 사용한다. 없다면 원본 소스에서 로딩.
+  1. reloadIgnoringLocalCacheData: 캐시를 사용하지 않고 원 서버에서만 로드한다.
+
+  2. returnCacheDataDontLoad: 캐시 데이터의 나이(age)와 유효기간(expiration
+
+     date)에 상관없이 존재하는 캐시 데이터를 사용한다. 없다면 fail을 리턴.
+
+  3. returnCacheDataElseLoad: 캐시 데이터의 나이(age)와 유효기간(expiration
+
+     date)에 상관없이 존재하는 캐시 데이터를 사용한다. 없다면 원본 소스에서 로딩.
+
   4. useProtocolCachePolicy: returnCacheDataElseLoad와 같지만, 캐시 데이터의 만료일과 age 초과시 원본 소스에서 변화된 내용을 체크한다는 점에서 다르다. 원본에 변화가 있다면 원본 데이터를, 아니면 캐시 데이터를 리턴한다.
 
-- 캐시에 직접 접근
+  HTTP는 Cache-Control과 Expires라는 특별한 헤더들을 이용해서 원 서버가 각 데이터에 유효 기간을 붙일 수 있게 해준다. Cache-Control의 max-age 값은 초 단위 이며, 데이터가 생성된 이후 max-age (초) 까지 캐시 데이터가 유효하다는 의미이다. 즉, 데이터가 생성된 현재 시간에서 유효 기간까지의 사이 간격을 초 단위로 나타낸 것이다. Expires는 절대 시간이다. 컴퓨터의 시간이 올바르게 맞추어져 있을 때 제대로 작동한다.
+
+  ```
+  Expires: Mon, 01 Oct 2018, 05:00:00 GMT
+  Cache-Control: max-age=484200
+  ```
+
+- 캐시에 직접 접근하여 관리
+
+  - 앞에서 URLSessionConfiguration의 urlCache 인스턴스를 통해 캐시 설정을 한다고 했다.
+  - 특정 request에 대한 캐시된 응답을 확인하기 위해서는 urlCache의 cachedResponse(for:)을 호출한다. 이 메소드를 호출하면 CachedURLResponse가 리턴된다.
+  - urlCache의 removeCachedResponse 관련 메소드를 사용하여 캐시된 데이터를 직접 지울 수 있다.
 
   ​
-
-
 
 ---
 
