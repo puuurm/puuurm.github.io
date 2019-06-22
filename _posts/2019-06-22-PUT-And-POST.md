@@ -1,6 +1,6 @@
 ---
 layout: post
-title: HTTP 메소드: PUT과 POST
+title: "HTTP 메소드: PUT과 POST"
 date: 2019-06-22 20:28:00 +0900
 categories: PUT And POST
 ---
